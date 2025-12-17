@@ -5,13 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class CatDTO {
-    private Long id;
-    private String name;
-    private String breed;
-    private Integer age;
+@NoArgsConstructor
+public class OrderItemDTO {
+    private Long catId;
+    private String catName;
+    private Integer quantity;
     private Double price;
-    private String imageUrl;
 }

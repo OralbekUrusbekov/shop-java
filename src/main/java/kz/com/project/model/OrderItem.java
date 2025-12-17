@@ -5,21 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cats")
-public class Cat {
-
+@AllArgsConstructor
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String breed;
-    private Integer age;
-    private Double price;
-    private String imageUrl;
+    @ManyToOne
+    private Cat cat;
 
+    private int quantity;
+    private Double price;
 }
+
+

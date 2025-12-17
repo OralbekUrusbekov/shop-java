@@ -5,21 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cats")
-public class Cat {
-
+@AllArgsConstructor
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String breed;
-    private Integer age;
-    private Double price;
-    private String imageUrl;
+    @OneToOne
+    private Order order;
 
+    private Double amount;
+    private String status = "PAID"; // fake
+
+    private LocalDateTime paymentDate = LocalDateTime.now();
 }

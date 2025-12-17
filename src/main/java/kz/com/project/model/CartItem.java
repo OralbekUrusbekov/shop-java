@@ -7,19 +7,18 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cats")
-public class Cat {
-
+@AllArgsConstructor
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String breed;
-    private Integer age;
-    private Double price;
-    private String imageUrl;
+    @ManyToOne
+    private Cart cart;
 
+    @ManyToOne
+    private Cat cat;
+
+    private int quantity;
 }

@@ -20,6 +20,6 @@ public class Cat {
     private String breed;
     private Integer age;
     private Double price;
-
     private String imageUrl;
+
 }

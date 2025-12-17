@@ -4,6 +4,7 @@ import kz.com.project.Dto.CatDTO;
 import kz.com.project.Dto.OrderDTO;
 import kz.com.project.service.CatService;
 import kz.com.project.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,29 +15,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/shop")
 @PreAuthorize("hasAuthority('USER')")
+@RequiredArgsConstructor
 public class ShopController {
 
     private final CatService catService;
-    private final OrderService orderService;
 
-    public ShopController(CatService catService, OrderService orderService) {
-        this.catService = catService;
-        this.orderService = orderService;
-    }
-
+    // Витрина
     @GetMapping("/cats")
     public ResponseEntity<List<CatDTO>> getCats() {
-        return ResponseEntity.ok(catService.getAllCats());
+        return ResponseEntity.ok(catService.getAll());
     }
 
-    @PostMapping("/buy/{catId}")
-    public ResponseEntity<OrderDTO> buyCat(@PathVariable Long catId, Principal principal) {
-        // principal.getName() → email
-        return ResponseEntity.ok(orderService.createOrder(
-                // пайдаланушыны табу
-                null, // Мұнда сіз UserRepository арқылы userId табасыз
-                catId
-        ));
+    // Detail page
+    @GetMapping("/cats/{id}")
+    public ResponseEntity<CatDTO> getCat(@PathVariable Long id) {
+        return ResponseEntity.ok(catService.getById(id));
     }
 }
+
 

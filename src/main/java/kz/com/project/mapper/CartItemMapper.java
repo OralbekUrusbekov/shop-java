@@ -15,5 +15,9 @@ public interface CartItemMapper {
     @Mapping(expression = "java(item.getCat().getPrice() * item.getQuantity())", target = "price")
     CartItemDTO toDto(CartItem item);
 
+    @Mapping(source = "catId", target = "cat.id")
+    CartItem toEntity(CartItemDTO dto);
+
     List<CartItemDTO> toDtoList(List<CartItem> items);
+    List<CartItem> toEntityList(List<CartItemDTO> dtos);
 }

@@ -14,5 +14,9 @@ public interface OrderItemMapper {
     @Mapping(source = "cat.name", target = "catName")
     OrderItemDTO toDto(OrderItem item);
 
+    @Mapping(source = "catId", target = "cat.id")
+    OrderItem toEntity(OrderItemDTO dto);
+
     List<OrderItemDTO> toDtoList(List<OrderItem> items);
+    List<OrderItem> toEntityList(List<OrderItemDTO> dtos);
 }

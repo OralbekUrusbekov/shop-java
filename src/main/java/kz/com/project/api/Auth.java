@@ -1,4 +1,3 @@
-package kz.com.project.api;
 import kz.com.project.Dto.UserDto;
 import kz.com.project.config.JwtUtil;
 import kz.com.project.model.User;
@@ -46,3 +45,4 @@ public class Auth {
         return ResponseEntity.ok("dfgb");
     }
 }
+

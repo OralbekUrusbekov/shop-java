@@ -1,6 +1,7 @@
 package kz.com.project.Dto;
 
 
+import kz.com.project.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,6 @@ public class OrderDTO {
     private Long orderId;
     private List<OrderItemDTO> items;
     private Double totalPrice;
-    private String status;
+    private OrderStatus status;
     private LocalDateTime createdAt;
 }

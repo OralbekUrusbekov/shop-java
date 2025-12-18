@@ -65,13 +65,4 @@ public class CatService {
     public void delete(Long id) {
         catRepository.deleteById(id);
     }
-
-    public Cat getEntity(Long id) {
-        return catRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cat not found"));
-    }
-
-    public void save(Cat cat) {
-        catRepository.save(cat);
-    }
 }

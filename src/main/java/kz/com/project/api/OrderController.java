@@ -22,38 +22,22 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    /**
-     * Returns orders of the currently authenticated user.
-     */
     @GetMapping("/my")
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<List<OrderDTO>> myOrders(Principal principal) {
         return ResponseEntity.ok(orderService.getMyOrders(principal.getName()));
     }
 
-    /**
-     * Returns all orders in the system.
-     * Accessible only by ADMIN.
-     */
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<OrderDTO>> all() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-    /**
-     * Updates order status (e.g. CREATED, PAID, SHIPPED).
-     * Accessible only by ADMIN.
-     */
     @PutMapping("/{id}/status")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<OrderDTO> status(
-            @PathVariable Long id,
-            @RequestParam OrderStatus status
-    ) {
         return ResponseEntity.ok(orderService.updateStatus(id, status));
     }
 }
-
 
 

@@ -18,6 +18,10 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
+    /**
+     * Processes payment for a specific order.
+     * Changes order status after successful payment.
+     */
     @PostMapping("/pay/{orderId}")
     public ResponseEntity<PaymentDTO> pay(@PathVariable Long orderId) {
         return ResponseEntity.ok(paymentService.pay(orderId));

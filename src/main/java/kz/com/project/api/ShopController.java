@@ -20,17 +20,22 @@ public class ShopController {
 
     private final CatService catService;
 
-    // Витрина
+    /**
+     * Returns list of cats for shop main page (catalog).
+     */
     @GetMapping("/cats")
     public ResponseEntity<List<CatDTO>> getCats() {
         return ResponseEntity.ok(catService.getAll());
     }
 
-    // Detail page
+    /**
+     * Returns detailed information about a specific cat by ID.
+     */
     @GetMapping("/cats/{id}")
     public ResponseEntity<CatDTO> getCat(@PathVariable Long id) {
         return ResponseEntity.ok(catService.getById(id));
     }
 }
+
 
 

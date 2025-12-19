@@ -23,11 +23,20 @@ public class CatController {
 
     private final CatService catService;
 
+    /**
+     * Returns a list of all cats (products).
+     * Accessible only by ADMIN.
+     */
     @GetMapping
     public ResponseEntity<List<CatDTO>> getAll() {
         return ResponseEntity.ok(catService.getAll());
     }
 
+    /**
+     * Creates a new cat (product).
+     * Supports image upload using multipart/form-data.
+     * Saves image to the server and stores image URL in database.
+     */
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<CatDTO> create(
             @RequestParam("name") String name,
@@ -46,17 +55,17 @@ public class CatController {
         if (imageFile != null && !imageFile.isEmpty()) {
             String folder = "uploads/";
             Path uploadPath = Paths.get(folder);
+
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
 
-
             String filename = System.currentTimeMillis() + "_" +
-                    imageFile.getOriginalFilename().replaceAll("[^a-zA-Z0-9\\.]", "_");
-            Path path = Paths.get(folder + filename);
+                    imageFile.getOriginalFilename()
+                            .replaceAll("[^a-zA-Z0-9\\.]", "_");
+
+            Path path = uploadPath.resolve(filename);
             Files.write(path, imageFile.getBytes());
-
-
 
             dto.setImageUrl("/" + folder + filename);
         }
@@ -64,8 +73,10 @@ public class CatController {
         return ResponseEntity.ok(catService.create(dto));
     }
 
-
-
+    /**
+     * Updates an existing cat by ID.
+     * If a new image is uploaded, deletes the old image from the server.
+     */
     @PutMapping(value = "/{id}", consumes = "multipart/form-data")
     public ResponseEntity<CatDTO> update(
             @PathVariable Long id,
@@ -83,24 +94,25 @@ public class CatController {
         dto.setPrice(price);
 
         if (imageFile != null && !imageFile.isEmpty()) {
-            String folder = "uploads/";
-            Path uploadPath = Paths.get(folder);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-
             CatDTO existingCat = catService.getById(id);
+
             if (existingCat.getImageUrl() != null) {
-                Path oldFilePath = Paths.get(existingCat.getImageUrl().replaceFirst("/", ""));
+                Path oldFilePath = Paths.get(
+                        existingCat.getImageUrl().replaceFirst("/", "")
+                );
                 if (Files.exists(oldFilePath)) {
                     Files.delete(oldFilePath);
                 }
             }
 
+            String folder = "uploads/";
+            Path uploadPath = Paths.get(folder);
+            Files.createDirectories(uploadPath);
 
             String filename = System.currentTimeMillis() + "_" +
-                    imageFile.getOriginalFilename().replaceAll("[^a-zA-Z0-9\\.]", "_");
+                    imageFile.getOriginalFilename()
+                            .replaceAll("[^a-zA-Z0-9\\.]", "_");
+
             Path path = uploadPath.resolve(filename);
             Files.write(path, imageFile.getBytes());
 
@@ -110,7 +122,10 @@ public class CatController {
         return ResponseEntity.ok(catService.update(id, dto));
     }
 
-
+    /**
+     * Deletes a cat (product) by ID.
+     * Accessible only by ADMIN.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         catService.delete(id);

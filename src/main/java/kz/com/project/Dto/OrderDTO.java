@@ -15,5 +15,6 @@ public class OrderDTO {
     private Long orderId;
     private List<OrderItemDTO> items;
     private Double totalPrice;
+    private String status;
     private LocalDateTime createdAt;
 }

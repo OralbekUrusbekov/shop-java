@@ -14,6 +14,4 @@ public class CatDTO {
     private Integer age;
     private Double price;
     private String imageUrl;
-
-
 }

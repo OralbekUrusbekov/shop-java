@@ -57,7 +57,7 @@ class CatServiceTest {
 
     @Test
     void getAllCats_with_existing_data() {
-        int initialSize = catService.getAllCats().size();
+        int initialSize = catService.getAll().size();
 
         CatDTO cat1 = new CatDTO();
         cat1.setName("Murka");
@@ -70,7 +70,7 @@ class CatServiceTest {
         catService.create(cat1);
         catService.create(cat2);
 
-        List<CatDTO> cats = catService.getAllCats();
+        List<CatDTO> cats = catService.getAll();
 
         Assertions.assertEquals(initialSize + 2, cats.size());
     }

@@ -62,4 +62,16 @@ public class CatServiceImpl implements CatService {
     public void delete(Long id) {
         catRepository.deleteById(id);
     }
+
+    @Override
+    public Cat getEntity(Long id) {
+        return catRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cat not found"));
+    }
+
+    @Override
+    public void save(Cat cat) {
+        catRepository.save(cat);
+    }
+
 }

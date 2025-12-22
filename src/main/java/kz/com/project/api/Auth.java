@@ -1,5 +1,6 @@
 package kz.com.project.api;
 import kz.com.project.Dto.UserDto;
+import kz.com.project.Dto.UserLogin;
 import kz.com.project.config.JwtUtil;
 import kz.com.project.model.User;
 import kz.com.project.service.impl.UserServiceImpl;
@@ -29,7 +30,7 @@ public class Auth {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDto userDto){
+    public ResponseEntity<String> login(@RequestBody UserLogin userDto){
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword()) );

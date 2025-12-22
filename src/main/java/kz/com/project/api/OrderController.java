@@ -36,8 +36,8 @@ public class OrderController {
 
     @PutMapping("/{id}/status")
     @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<OrderDTO> status(@PathVariable Long id,
+                                           @RequestParam OrderStatus status) {
         return ResponseEntity.ok(orderService.updateStatus(id, status));
     }
 }
-
-

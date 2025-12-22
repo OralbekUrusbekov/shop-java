@@ -1,77 +1,23 @@
 package kz.com.project.service;
 
-
 import kz.com.project.Dto.CatDTO;
-import kz.com.project.mapper.CatMapper;
 import kz.com.project.model.Cat;
-import kz.com.project.repository.CatRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
-@RequiredArgsConstructor
-public class CatService {
+public interface CatService {
 
-    private final CatRepository catRepository;
-    private final CatMapper catMapper;
+    List<CatDTO> getAll();
 
-    public List<CatDTO> getAll() {
-        return catMapper.toDtoList(catRepository.findAll());
-    }
+    CatDTO getById(Long id);
 
-    public CatDTO getById(Long id) {
-        Cat cat = catRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cat not found"));
-        return catMapper.toDto(cat);
-    }
+    CatDTO create(CatDTO dto);
 
-    public CatDTO create(CatDTO dto) {
+    CatDTO update(Long id, CatDTO dto);
 
-        Cat cat = new Cat();
-        cat.setImageUrl(dto.getImageUrl());
-        cat.setPrice(dto.getPrice());
-        cat.setName(dto.getName());
-        cat.setBreed(dto.getBreed());
-        cat.setAge(dto.getAge());
-        if (dto.getImageUrl() != null) {
-            cat.setImageUrl(dto.getImageUrl());
-        }
-        return catMapper.toDto(catRepository.save(cat));
-    }
+    void delete(Long id);
 
-    public CatDTO update(Long id, CatDTO dto) {
-        Cat cat = catRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cat not found"));
+    public Cat getEntity(Long id);
 
-        cat.setName(dto.getName());
-        cat.setBreed(dto.getBreed());
-        cat.setAge(dto.getAge());
-        cat.setPrice(dto.getPrice());
-
-        if (dto.getImageUrl() != null) {
-            cat.setImageUrl(dto.getImageUrl());
-        }
-
-        return catMapper.toDto(catRepository.save(cat));
-    }
-
-    public List<CatDTO> getAllCats(){
-        return catMapper.toDtoList(catRepository.findAll());
-    }
-
-    public void delete(Long id) {
-        catRepository.deleteById(id);
-    }
-
-    public Cat getEntity(Long id) {
-        return catRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cat not found"));
-    }
-
-    public void save(Cat cat) {
-        catRepository.save(cat);
-    }
+    public void save(Cat cat);
 }

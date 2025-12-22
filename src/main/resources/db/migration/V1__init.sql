@@ -1,8 +1,4 @@
--- =========================
--- USERS & PERMISSIONS
--- =========================
-
-CREATE TABLE t_permission (
+CREATE TABLE t_permi0ssion (
                               id BIGSERIAL PRIMARY KEY,
                               name VARCHAR(100) NOT NULL UNIQUE
 );
@@ -24,9 +20,6 @@ CREATE TABLE user_permissions (
                                       FOREIGN KEY (permission_id) REFERENCES t_permission(id) ON DELETE CASCADE
 );
 
--- =========================
--- CATS
--- =========================
 
 CREATE TABLE cats (
                       id BIGSERIAL PRIMARY KEY,
@@ -37,9 +30,6 @@ CREATE TABLE cats (
                       image_url VARCHAR(500)
 );
 
--- =========================
--- CART & CART ITEMS
--- =========================
 
 CREATE TABLE cart (
                       id BIGSERIAL PRIMARY KEY,
@@ -59,9 +49,6 @@ CREATE TABLE cart_item (
                                FOREIGN KEY (cat_id) REFERENCES cats(id)
 );
 
--- =========================
--- ORDERS & ORDER ITEMS
--- =========================
 
 CREATE TABLE orders (
                         id BIGSERIAL PRIMARY KEY,
@@ -92,9 +79,6 @@ CREATE TABLE orders_items (
                                   FOREIGN KEY (items_id) REFERENCES order_item(id) ON DELETE CASCADE
 );
 
--- =========================
--- PAYMENT
--- =========================
 
 CREATE TABLE payment (
                          id BIGSERIAL PRIMARY KEY,

@@ -50,14 +50,21 @@ public class CatController {
                 Files.createDirectories(uploadPath);
             }
 
+
             String filename = System.currentTimeMillis() + "_" +
+                    imageFile.getOriginalFilename().replaceAll("[^a-zA-Z0-9\\.]", "_");
+            Path path = Paths.get(folder + filename);
             Files.write(path, imageFile.getBytes());
+
+
 
             dto.setImageUrl("/" + folder + filename);
         }
 
         return ResponseEntity.ok(catService.create(dto));
     }
+
+
 
     @PutMapping(value = "/{id}", consumes = "multipart/form-data")
     public ResponseEntity<CatDTO> update(
@@ -76,8 +83,16 @@ public class CatController {
         dto.setPrice(price);
 
         if (imageFile != null && !imageFile.isEmpty()) {
+            String folder = "uploads/";
+            Path uploadPath = Paths.get(folder);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+
             CatDTO existingCat = catService.getById(id);
             if (existingCat.getImageUrl() != null) {
+                Path oldFilePath = Paths.get(existingCat.getImageUrl().replaceFirst("/", ""));
                 if (Files.exists(oldFilePath)) {
                     Files.delete(oldFilePath);
                 }
@@ -85,6 +100,7 @@ public class CatController {
 
 
             String filename = System.currentTimeMillis() + "_" +
+                    imageFile.getOriginalFilename().replaceAll("[^a-zA-Z0-9\\.]", "_");
             Path path = uploadPath.resolve(filename);
             Files.write(path, imageFile.getBytes());
 
@@ -93,6 +109,7 @@ public class CatController {
 
         return ResponseEntity.ok(catService.update(id, dto));
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
